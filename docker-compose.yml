@@ -1,0 +1,27 @@
+version: '2'
+services:
+  db:
+    image: 'mongo:latest'
+    expose:
+      - '27017'
+    volumes:
+      - "mongoData:/data/db"
+    networks:
+      - netdb
+  
+  rocketchat:
+    image: 'rocket.chat:latest'
+    ports:
+      - '3000:3000'
+    environment:
+      - ROOT_URL=http://<ip>
+    networks:
+      - netdb
+    depends_on:
+      - db
+
+volumes:
+  mongoData:
+
+networks:
+  netdb:
